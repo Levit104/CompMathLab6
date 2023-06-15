@@ -1,3 +1,5 @@
+from matplotlib import pyplot as plt
+
 from equations import equations_list
 from prettytable import PrettyTable
 
@@ -36,6 +38,17 @@ def print_results(name, x_values, y_values, exact_values, eps):
         print(f'Точность не достигнута: {y_diff_max:.5f} > {eps}')
     else:
         print(f'Точность достигнута: {y_diff_max:.5f} <= {eps}')
+
+
+def draw_graph(name, x_values, y_values, exact_values):
+    plt.grid()
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.title('Решение задачи Коши')
+    plt.plot(x_values, exact_values, label='Точное решение')
+    plt.plot(x_values, y_values, marker='o', label=name)
+    plt.legend()
+    plt.show()
 
 
 def valid_value(value, min_value, max_value, strict):
