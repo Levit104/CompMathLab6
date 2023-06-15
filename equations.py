@@ -42,7 +42,7 @@ class Equation3(Equation):
         return 'y` = 1/sqrt(x^2 - 1)'
 
 
-equations_list = [
+equations_list: list[Equation] = [
     Equation1(),
     Equation2(),
     Equation3()
