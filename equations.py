@@ -2,10 +2,10 @@ from math import exp, sqrt, log
 
 
 class Equation:
-    def exact(self, x, x_0, y_0):
+    def exact(self, x: float, x_0: float, y_0: float) -> float:
         pass
 
-    def __call__(self, x, y):
+    def __call__(self, x: float, y: float) -> float:
         pass
 
 
@@ -42,8 +42,8 @@ class Equation3(Equation):
         return 'y` = 1/sqrt(x^2 - 1)'
 
 
-equations_list: list[Equation] = [
-    Equation1(),
-    Equation2(),
-    Equation3()
-]
+equations_list: dict[int, Equation] = {
+    1: Equation1(),
+    2: Equation2(),
+    3: Equation3()
+}

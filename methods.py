@@ -2,25 +2,36 @@ from equations import Equation
 
 
 class Method:
-    name = ''
+    name: str
 
     @staticmethod
-    def calculate_exact(f: Equation, x, x_0, y_0):
+    def calculate_exact(f: Equation, x: list[float], x_0: float, y_0: float) -> list[float]:
         return [f.exact(x_i, x_0, y_0) for x_i in x]
 
-    def calculate(self, f: Equation, x_0, x_n, y_0, h, eps):
+    def calculate(self,
+                  f: Equation,
+                  x_0: float,
+                  x_n: float,
+                  y_0: float,
+                  h: float,
+                  eps: float) -> tuple[list[float], list[float], list[float]]:
         pass
 
-    def __call__(self, f: Equation, x_0, x_n, y_0, h, eps):
+    def __call__(self,
+                 f: Equation,
+                 x_0: float,
+                 x_n: float,
+                 y_0: float,
+                 h: float,
+                 eps: float) -> tuple[list[float], list[float], list[float]]:
         return self.calculate(f, x_0, x_n, y_0, h, eps)
 
 
 class Euler(Method):
     name = 'Метод Эйлера'
 
-    def calculate(self, f: Equation, x_0, x_n, y_0, h, eps):
+    def calculate(self, f, x_0, x_n, y_0, h, eps):
         try:
-            print(f'{self.name}, h = {h}')
             n = int((x_n - x_0) / h)
             x = [x_0]
             y = [y_0]
@@ -35,9 +46,8 @@ class Euler(Method):
 class ImprovedEuler(Method):
     name = 'Усовершенствованный метод Эйлера'
 
-    def calculate(self, f: Equation, x_0, x_n, y_0, h, eps):
+    def calculate(self, f, x_0, x_n, y_0, h, eps):
         try:
-            print(f'{self.name}, h = {h}')
             n = int((x_n - x_0) / h)
             x = [x_0]
             y = [y_0]
@@ -54,16 +64,14 @@ class ImprovedEuler(Method):
 class Adams(Method):
     name = 'Метод Адамса'
 
-    def calculate(self, f: Equation, x_0, x_n, y_0, h, eps):
+    def calculate(self, f, x_0, x_n, y_0, h, eps):
         try:
-            print(f'{self.name}, h = {h}')
-
-            def get_pred():
+            def get_pred() -> float:
                 return y[i] + h / 24 * (
                         55 * f(x[i], y[i]) - 59 * f(x[i - 1], y[i - 1]) + 37 * f(x[i - 2], y[i - 2]) - 9 * f(x[i - 3],
                                                                                                              y[i - 3]))
 
-            def get_corr():
+            def get_corr() -> float:
                 return y[i] + h / 24 * (
                         9 * f(x[i] + h, y_pred) + 19 * f(x[i], y[i]) - 5 * f(x[i - 1], y[i - 1]) + f(x[i - 2],
                                                                                                      y[i - 2]))
@@ -71,8 +79,7 @@ class Adams(Method):
             n = int((x_n - x_0) / h)
 
             if n + 1 < 4:
-                print(f'\n{self.name} не в состоянии решить данное ОДУ, т.к. число узлов меньше 4')
-                return
+                raise ValueError('число узлов меньше 4')
 
             x = [x_0]
             y = [y_0]
